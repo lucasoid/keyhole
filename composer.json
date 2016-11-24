@@ -1,0 +1,21 @@
+{
+	"name": "keyhole/keyhole",
+	"description": "API for dynamic user-facing database table creation and querying",
+	"keywords": ["dynamic", "query", "database"],
+	"homepage": "https://github.com/lucasoid/keyhole",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Ben Lucas",
+			"email": "ben@breakoutlogic.com"
+		}
+	],
+    "require": {
+        "doctrine/dbal": "^2.5"
+    },
+	"autoload": {
+		"psr-4": {
+			"Keyhole\\":"src"
+		}
+	}
+}
