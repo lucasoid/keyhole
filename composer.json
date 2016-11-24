@@ -1,5 +1,5 @@
 {
-	"name": "keyhole/keyhole",
+	"name": "lucasoid/keyhole",
 	"description": "API for dynamic user-facing database table creation and querying",
 	"keywords": ["dynamic", "query", "database"],
 	"homepage": "https://github.com/lucasoid/keyhole",
