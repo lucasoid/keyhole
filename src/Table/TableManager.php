@@ -209,7 +209,7 @@ class TableManager {
 	/**
 	 * 
 	 * @param \Keyhole\Table\Row $row
-	 * @return boolean
+	 * @return \Keyhole\Table\Row|null
 	 */
 	public function save(Row $row) {
 		$qb = $this->conn->createQueryBuilder();
@@ -248,13 +248,16 @@ class TableManager {
 		}
 		try {
 			if($stmt = $qb->execute()) {
-				return true;
+				if(null == $row->getId() && $id = $this->conn->lastInsertId()) {
+					$row->setId($id);
+				}
+				return $row;
 			}
 		}
 		catch(\Exception $e) {
 			
 		}
-		return false;
+		return null;
 		
 	}
 	
