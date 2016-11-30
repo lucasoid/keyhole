@@ -16,7 +16,9 @@ abstract class RegistryEntity {
 			$method = 'set' . ucwords($property);
 			if(method_exists($this, $method)) {
 				$this->{$method}($value);
-				$this->readyToUpdate[] = $property;
+				if(!in_array($property, $this->readyToUpdate)) {
+					$this->readyToUpdate[] = $property;
+				}
 			}
 		}
 	}
