@@ -247,7 +247,7 @@ abstract class RegistryMapper {
 	 * @return boolean
 	 */
 	public function delete(RegistryEntity $object) {
-		if(!empty($object->getId())) {
+		if(null != $object->getId()) {
 			$qb = $this->conn->createQueryBuilder();
 			$qb
 				->delete($this->getTableName())
