@@ -212,7 +212,7 @@ class Registry {
 	}
 	
 	public function normalizeName($name) {
-		$pattern = '/[^a-zA-Z_]/';
+		$pattern = '/[^a-zA-Z0-9_]/';
 		$name = preg_replace($pattern, '', $name);
 		$name = substr($name, 0, 127);
 		return $name;
