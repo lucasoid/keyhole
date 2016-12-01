@@ -35,8 +35,8 @@ class TableManagerTest extends PHPUnit_Framework_TestCase {
 		$queries[] = 'DELETE FROM test_table_field_registry';
 		$queries[] = 'INSERT INTO test_table_table_registry (id, name, label, updated_at) 
 				VALUES (1, "MyTable", "My Table", "2016-01-01")';
-		$queries[] = 'INSERT INTO test_table_field_registry (id, name, label, updated_at, table_id, fieldtype) 
-				VALUES (1, "MyField", "My Field", "2016-01-01", 1, "string")';
+		$queries[] = 'INSERT INTO test_table_field_registry (id, name, label, options, updated_at, table_id, fieldtype) 
+				VALUES (1, "MyField", "My Field", "", "2016-01-01", 1, "string")';
 		
 		foreach($queries as $qry) {
 			$stmt = $this->conn->prepare($qry);
@@ -115,7 +115,7 @@ class TableManagerTest extends PHPUnit_Framework_TestCase {
 		$data['MyField'] = $data['MyField'] . ' * changed';
 		$row->setData($data);
 		$saved = $this->table->save($row);
-		$this->assertTrue($saved);
+		$this->assertNotNull($saved);
 		
 		$conditions = array('where'=>array(array('field'=>'MyField', 'operator'=>' LIKE ', 'value'=>'?')), 'params'=>array('%* changed%'));
 		$rows = $this->table->select($conditions);
