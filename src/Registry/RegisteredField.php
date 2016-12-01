@@ -8,6 +8,7 @@ class RegisteredField extends RegistryEntity {
 	protected $tableId;
 	protected $name;
 	protected $label;
+	protected $options;
 	protected $fieldtype;
 	protected $meta;
 	protected $updatedAt;
@@ -26,6 +27,14 @@ class RegisteredField extends RegistryEntity {
 	
 	public function setLabel($label) {
 		$this->label = $label;
+	}
+	
+	/**
+	 *
+	 * @param string $options JSON-encoded array
+	 */
+	public function setOptions($options) {
+		$this->options = $options;
 	}
 	
 	public function setFieldtype($fieldtype) {
@@ -54,6 +63,10 @@ class RegisteredField extends RegistryEntity {
 	
 	public function getLabel() {
 		return $this->label;
+	}
+	
+	public function getOptions() {
+		return $this->options;
 	}
 
 	public function getFieldtype() {

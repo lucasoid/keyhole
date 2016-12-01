@@ -316,7 +316,8 @@ class TableManager {
 			foreach($this->registeredFields as $field) {
 				$type = $field->getFieldtype();
 				if(TypeMap::typeIsSupported($type)) {
-					$this->columns[] = array('name'=>$field->getName(), 'type'=>$field->getFieldtype(), 'options'=>array());
+					$options = json_decode($field->getOptions(), true);
+					$this->columns[] = array('name'=>$field->getName(), 'type'=>$field->getFieldtype(), 'options'=>$options);
 				}
 			}
 		}
