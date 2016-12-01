@@ -182,7 +182,9 @@ abstract class RegistryMapper {
 		if(!empty($conditions['where']) && is_array($conditions['where'])) {
 			foreach($conditions['where'] as $where) {
 				if(is_array($where)) {
-					$qb->andWhere($where['field'] . ' ' . $where['operator'] . ' ' .$where['value']);
+					$mappedColumn = $this->mapPropertyToColumn($where['field']);
+					$field = $mappedColumn ? $mappedColumn : $where['field'];
+					$qb->andWhere($field . ' ' . $where['operator'] . ' ' .$where['value']);
 				}
 			}
 		}
