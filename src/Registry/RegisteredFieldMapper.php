@@ -44,7 +44,7 @@ class RegisteredFieldMapper extends RegistryMapper {
 			array('column'=>'label', 'property'=>'label'),
 			array('column'=>'options', 'property'=>'options'),
 			array('column'=>'fieldtype', 'property'=>'fieldtype'),
-			array('column'=>'meta', 'property'=>'active'),
+			array('column'=>'meta', 'property'=>'meta'),
 			array('column'=>'updated_at', 'property'=>'updatedAt')
 		);
 	}
