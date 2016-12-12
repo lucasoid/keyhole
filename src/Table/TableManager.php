@@ -211,6 +211,59 @@ class TableManager {
 		return $rows;
 	}
 	
+	/**
+	 * 
+	 * @param array $conditions
+	 * @return null|integer
+	 */
+	public function count(array $conditions = array()) {
+		
+		$qb = $this->conn->createQueryBuilder();
+		
+		$qb->select('count(*)')->from($this->getTableName());
+		
+		if(!empty($conditions['where']) && is_array($conditions['where'])) {
+			foreach($conditions['where'] as $where) {
+				if(is_array($where)) {
+					$qb->andWhere($where['field'] . ' ' . $where['operator'] . ' ' .$where['value']);
+				}
+			}
+		}
+		
+		if(!empty($conditions['params'])) {
+			foreach($conditions['params'] as $k=>$v) {
+				$qb->setParameter($k, $v);
+			}
+		}
+		
+		if(!empty($conditions['join'])) {
+			foreach($conditions['join'] as $join) {
+				$qb->join($this->getTableName(), $join['table'], $join['table'], $join['on']);
+			}
+		}
+		
+		if(!empty($conditions['firstResult'])) {
+			$qb->setFirstResult($conditions['firstResult']);
+		}
+		
+		if(!empty($conditions['maxResults'])) {
+			$qb->setMaxResults($conditions['maxResults']);
+		}
+		
+		$count = null;
+		
+		try {
+			$stmt = $qb->execute();
+    		$count = $stmt->fetchColumn(0);
+
+		}
+		catch(\Exception $e) {
+			
+		}
+		
+		return $count;
+	}
+	
 	public function getNewRow() {
 		return new Row();
 	}

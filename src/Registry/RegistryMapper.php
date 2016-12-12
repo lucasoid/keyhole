@@ -238,6 +238,60 @@ abstract class RegistryMapper {
 	
 	/**
 	 * 
+	 * @param array $conditions
+	 * @return null|integer
+	 */
+	public function count($conditions = array()) {
+		
+		$qb = $this->conn->createQueryBuilder();
+		
+		$qb->select('count(*)')->from($this->getTableName(), $this->getTableName());
+				
+		if(!empty($conditions['where']) && is_array($conditions['where'])) {
+			foreach($conditions['where'] as $where) {
+				if(is_array($where)) {
+					$mappedColumn = $this->mapPropertyToColumn($where['field']);
+					$field = $mappedColumn ? $mappedColumn : $where['field'];
+					$qb->andWhere($field . ' ' . $where['operator'] . ' ' .$where['value']);
+				}
+			}
+		}
+		
+		if(!empty($conditions['params'])) {
+			foreach($conditions['params'] as $k=>$v) {
+				$qb->setParameter($k, $v);
+			}
+		}
+		
+		if(!empty($conditions['join'])) {
+			foreach($conditions['join'] as $join) {
+				$qb->join($this->getTableName(), $join['table'], $join['table'], $join['on']);
+			}
+		}
+			
+		if(!empty($conditions['firstResult'])) {
+			$qb->setFirstResult($conditions['firstResult']);
+		}
+		
+		if(!empty($conditions['maxResults'])) {
+			$qb->setMaxResults($conditions['maxResults']);
+		}
+		
+		$count = null;
+		
+		try {
+			$stmt = $qb->execute();
+    		$count = $stmt->fetchColumn(0);
+		}
+		catch(\Exception $e) {
+			
+		}
+		
+		return $count;
+	}
+	
+	/**
+	 * 
 	 * @param \Keyhole\Registry\RegistryEntity $object
 	 * @return NULL|\Keyhole\Registry\RegistryEntity
 	 */
