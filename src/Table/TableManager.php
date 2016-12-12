@@ -156,6 +156,14 @@ class TableManager {
 		
 		$qb->select($select)->from($this->getTableName());
 		
+		if(!empty($conditions['sortlevels'])) {
+			foreach($conditions['sortlevels'] as $level) {
+				if(is_array($level)) {
+					$qb->addOrderBy($level['orderby'], $level['sort']);
+				}
+			}
+		}
+		
 		if(!empty($conditions['where']) && is_array($conditions['where'])) {
 			foreach($conditions['where'] as $where) {
 				if(is_array($where)) {

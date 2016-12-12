@@ -179,6 +179,16 @@ abstract class RegistryMapper {
 		
 		$qb->select($select)->from($this->getTableName(), $this->getTableName());
 		
+		if(!empty($conditions['sortlevels'])) {
+			foreach($conditions['sortlevels'] as $level) {
+				if(is_array($level)) {
+					$mappedColumn = $this->mapPropertyToColumn($level['orderby']);
+					$field = $mappedColumn ? $mappedColumn : $level['orderby'];
+					$qb->addOrderBy($field, $level['sort']);
+				}
+			}
+		}
+		
 		if(!empty($conditions['where']) && is_array($conditions['where'])) {
 			foreach($conditions['where'] as $where) {
 				if(is_array($where)) {
