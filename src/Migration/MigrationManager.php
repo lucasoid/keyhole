@@ -90,6 +90,41 @@ class MigrationManager {
 		}
 	}
 	
+	/**
+	 * Drops a table from the schema.
+	 * 
+	 * @param string $tablename
+	 * @return boolean
+	 */
+	public function dropTable($tablename) {
+		if($this->newSchema->hasTable($tablename)) {
+			$this->newSchema->dropTable($tablename);
+			$this->setMigrations();
+			return $this->doMigrations();
+		}
+		return false;
+		
+	}
+	
+	/**
+	 * Drops a column from a table in the schema.
+	 * 
+	 * @param string $tablename
+	 * @param string $column
+	 * @return boolean
+	 */
+	public function dropColumn($tablename, $column) {
+		if($this->newSchema->hasTable($tablename)) {
+			$table = $this->newSchema->getTable($tablename);
+			if($table->hasColumn($column)) {
+				$table->dropColumn($column);
+				$this->setMigrations();
+				return $this->doMigrations();
+			}
+		}
+		return false;
+	}
+	
 	private function updateSchema($tablename, $columns) {
 		if(!$this->newSchema->hasTable($tablename)) {
 			$table = $this->newSchema->createTable($tablename);

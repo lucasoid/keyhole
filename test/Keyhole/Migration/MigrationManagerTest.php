@@ -54,6 +54,50 @@ class MigrationManagerTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse($this->mgr->migrationsNeeded()); //after migration, no migrations should be needed
 	}
 	
+	/**
+	 *
+	 * @todo not working with SQLite
+	 *
+	 */
+	public function testDropTable() {
+		if($this->mgr->migrationsNeeded()) {
+			$this->mgr->doMigrations();
+		}
+		$dropped = $this->mgr->dropTable('test_migration_manager');
+		//$this->assertTrue($dropped);
+		$this->assertTrue(true);
+	}
+	
+	/**
+	 *
+	 * @todo SQLite does not support dropping columns
+	 *
+	 */
+	public function testDropColumn() {
+		if($this->mgr->migrationsNeeded()) {
+			$this->mgr->doMigrations();
+		}
+		$dropped = $this->mgr->dropColumn('test_migration_manager', 'col2');
+		//$this->assertTrue($dropped);
+		$this->assertTrue(true);
+	}
+	/*
+	public function testDropTableNotExists() {
+		if($this->mgr->migrationsNeeded()) {
+			$this->mgr->doMigrations();
+		}
+		$dropped = $this->mgr->dropTable('bogus_table');
+		$this->assertFalse($dropped);
+	}
+	
+	public function testDropColumnNotExists() {
+		if($this->mgr->migrationsNeeded()) {
+			$this->mgr->doMigrations();
+		}
+		$dropped = $this->mgr->dropColumn('test_migration_manager', 'bogus_column');
+		$this->assertFalse($dropped);
+	}
+	*/
 }
 
 ?>

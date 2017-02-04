@@ -193,12 +193,12 @@ class Registry {
 		return $this->accessMapper->save($access);
 	}
 	
-	public function deleteTable(RegisteredTable $table) {
-		return $this->tableMapper->delete($table);
+	public function deleteTable(RegisteredTable $table, $drop = false) {
+		return $this->tableMapper->delete($table, $drop);
 	}
 	
-	public function deleteField(RegisteredField $field) {
-		return $this->fieldMapper->delete($field);
+	public function deleteField(RegisteredField $field, $drop = false) {
+		return $this->fieldMapper->delete($field, $drop);
 	}
 	
 	public function deleteAccess(RegisteredAccess $access) {

@@ -40,4 +40,14 @@ class RegisteredTableMapper extends RegistryMapper {
 		);
 	}
 	
+	public function delete(RegistryEntity $object, $drop = false) {
+		$exec = parent::delete($object);
+		if($exec && $drop) {
+			$migrationManager = new \Keyhole\Migration\MigrationManager($this->conn, $object->getName(), array());
+			$exec = $migrationManager->dropTable($object->getName());
+		}
+		
+		return $exec;
+	}
+	
 }

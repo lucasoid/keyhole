@@ -49,5 +49,16 @@ class RegisteredFieldMapper extends RegistryMapper {
 		);
 	}
 	
+	public function delete(RegistryEntity $object, $drop = false) {
+		$exec = parent::delete($object);
+		if($exec && $drop) {
+			$tableMapper = new RegisteredTableMapper($this->conn, $this->tablePrefix);
+			$table = $tableMapper->findById($object->getTableId());
+			$migrationManager = new \Keyhole\Migration\MigrationManager($this->conn, $table->getName(), array());
+			$exec = $migrationManager->dropColumn($table->getName(), $object->getName());
+		}
+		
+		return $exec;
+	}
 	
 }
